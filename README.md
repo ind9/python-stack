@@ -7,5 +7,8 @@ We expect the app material to be mounted on `/app` inside the container. After l
 
 ```
 # Assuming the material is checkout into app folder in PWD
-$ docker run -v $PWD/app:/app ind9/python-stack
+$ docker run -e USER_ID="$(id -u $(whoami))" -e GROUP_ID="$(id -g $(whoami))" -v $PWD/app:/app ind9/python-stack
 ```
+
+### Note
+We need to do that `id` foo while doing `docker run` because else the mounted directory would have root files which GoCD can't delete or overwrite on the next run.
