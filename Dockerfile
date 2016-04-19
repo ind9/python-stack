@@ -5,8 +5,8 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-ENV BUILDPACK_URL https://github.com/heroku/heroku-buildpack-python
-ENV BUILDPACK_COMMIT v80
+ENV BUILDPACK_URL https://github.com/ind9/mesos-buildpack-python
+ENV BUILDPACK_COMMIT mesos-fix
 
 RUN apt-get update  \
     && apt-get -y install coreutils curl tar git-core daemontools gcc g++ python
