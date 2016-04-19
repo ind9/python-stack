@@ -4,3 +4,8 @@ Docker image that's used to build python apps using heroku compatible python bui
 
 ## Usage
 We expect the app material to be mounted on `/app` inside the container. After launching the container, the final slug tarball will be available as `app.tar.gz` inside the material folder.
+
+```
+# Assuming the material is checkout into app folder in PWD
+$ docker run -v $PWD/app:/app ind9/python-stack
+```
