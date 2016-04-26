@@ -21,6 +21,7 @@ fi
 for script in `ls ${APP_PATH}/.profile.d/*`;
 do
   sed -i 's/\/app\//\$\{BASE_PATH\}\//g' $script
+  sed -i 's/\$HOME/\$\{BASE_PATH\}\//g' $script
 done
 
 echo
