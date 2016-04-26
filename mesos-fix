@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+### mesos-fix
+# This file re-writes some of the scripts generated under .profile.d/ directory of the app
+# to be relative to $BASE_PATH_STR and not /app/.
+#
+# All heroku buildpacks have hardcoded definitions of /app/ in them.
+
+APP_PATH=${APP_PATH:-/app/}
+
+if [ -f ${APP_PATH}/.profile.d/python.sh ]; then
+  sed -i '1i export BASE_PATH=$(cd `dirname $BASH_SOURCE`; pwd -P)/../' ${APP_PATH}/.profile.d/python.sh
+
+  sed -i 's/#!\/app\/.heroku\/python\/bin\/python/#!\/usr\/bin\/env python/' ${APP_PATH}/.heroku/python/bin/*
+fi
+
+# Update all scripts in .profile.d/
+for script in `ls ${APP_PATH}/.profile.d/*`;
+do
+  sed -i 's/\/app\//\$\{BASE_PATH\}\//g' $script
+  sed -i 's/\$HOME/\$\{BASE_PATH\}/g' $script
+done
+
+echo
