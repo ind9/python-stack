@@ -18,7 +18,7 @@ RUN /bin/herokuish buildpack install  # Install officially supported buildpacks
 
 CMD addgroup --gid $GROUP_ID go \
     && adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos "" --shell /bin/bash --home /var/go go \
-    && /bin/herokuish buildpack build \     # Install any custom version of buildpacks
+    && /bin/herokuish buildpack build \
     && /bin/herokuish slug generate \
     && /bin/herokuish slug export > /app/app.tar.gz \
     && chown -R go:go /app
