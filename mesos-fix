@@ -10,7 +10,6 @@ set -e
 
 APP_PATH=${APP_PATH:-/app/}
 
-## Patch for Python stack
 if [ -f ${APP_PATH}/.profile.d/python.sh ]; then
   sed -i '1i export BASE_PATH=$(cd `dirname $BASH_SOURCE`; pwd -P)/../' ${APP_PATH}/.profile.d/python.sh
 
