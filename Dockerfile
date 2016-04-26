@@ -15,8 +15,9 @@ RUN apt-get update  \
 RUN curl --silent http://dl.gliderlabs.com/herokuish/latest/linux_x86_64.tgz \
     | tar -xzC /bin
 
+COPY mesos-fix /bin/mesos-fix
+
 RUN /bin/herokuish buildpack install  \
-    && curl -L https://raw.githubusercontent.com/ind9/python-stack/mesos-fix/mesos-fix > /bin/mesos-fix \
     && chmod +x /bin/mesos-fix
 
 CMD addgroup --gid $GROUP_ID go \
