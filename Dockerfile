@@ -20,10 +20,10 @@ COPY mesos-fix /bin/mesos-fix
 RUN /bin/herokuish buildpack install  \
     && chmod +x /bin/mesos-fix
 
-CMD addgroup --gid $GROUP_ID go \
-    && adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos "" --shell /bin/bash --home /var/go go \
+CMD bash -c "addgroup --gid $GROUP_ID go \
+    && adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos \"\" --shell /bin/bash --home /var/go go \
     && /bin/herokuish buildpack build \
     && /bin/mesos-fix \
     && /bin/herokuish slug generate \
     && /bin/herokuish slug export > /app/app.tar.gz \
-    && chown -R go:go /app
+    && chown -R go:go /app"
