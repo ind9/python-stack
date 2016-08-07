@@ -22,7 +22,7 @@ RUN /bin/herokuish buildpack install  \
 
 CMD bash -c "addgroup --gid $GROUP_ID go \
     && adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos \"\" --shell /bin/bash --home /var/go go \
-    && /bin/herokuish buildpack build \
+    && (/bin/herokuish buildpack build || chown -R go:go /app && false) \
     && /bin/mesos-fix \
     && /bin/herokuish slug generate \
     && /bin/herokuish slug export > /app/app.tar.gz \
