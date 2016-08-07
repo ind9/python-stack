@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -x -e
+
+run_in_sandbox() {
+  CMD=$1
+  bash -c "${CMD} || (chown -R go:go /app && false)"
+}
+
+addgroup --gid $GROUP_ID go
+adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos \"\" --shell /bin/bash --home /var/go go
+run_in_sandbox "/bin/herokuish buildpack build"
+run_in_sandbox /bin/mesos-fix
+
+# Experimental - bin/pre_package hook run before the generating the slug tarball
+pushd /app
+if [ -f bin/pre_package ]; then
+    echo "-----> Running pre_package hook"
+    chmod +x bin/pre_package
+    ./bin/pre_package
+fi
+popd
+
+run_in_sandbox "/bin/herokuish slug generate"
+run_in_sandbox "/bin/herokuish slug export > /app/app.tar.gz"
+chown -R go:go /app

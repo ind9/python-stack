@@ -16,14 +16,10 @@ RUN curl --silent http://dl.gliderlabs.com/herokuish/latest/linux_x86_64.tgz \
     | tar -xzC /bin
 
 COPY mesos-fix /bin/mesos-fix
+COPY build-slug /bin/build-slug
 
 RUN /bin/herokuish buildpack install  \
-    && chmod +x /bin/mesos-fix
+    && chmod +x /bin/mesos-fix  \
+    && chmod +x /bin/build-slug
 
-CMD bash -c "addgroup --gid $GROUP_ID go \
-    && adduser -q --disabled-password --gid $GROUP_ID --uid $USER_ID --gecos \"\" --shell /bin/bash --home /var/go go \
-    && (/bin/herokuish buildpack build || chown -R go:go /app && false) \
-    && /bin/mesos-fix \
-    && /bin/herokuish slug generate \
-    && /bin/herokuish slug export > /app/app.tar.gz \
-    && chown -R go:go /app"
+CMD /bin/build-slug

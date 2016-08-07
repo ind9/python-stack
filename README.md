@@ -10,5 +10,8 @@ We expect the app material to be mounted on `/app` inside the container. After l
 $ docker run -e USER_ID="$(id -u $(whoami))" -e GROUP_ID="$(id -g $(whoami))" -v $PWD/app:/app ind9/python-stack
 ```
 
+## Hooks
+- `bin/pre_package` - Run before the generating the slug tarball. Any changes to the directory structure will be reflected in the generated slug.
+
 ### Note
 We need to do that `id` foo while doing `docker run` because else the mounted directory would have root files which GoCD can't delete or overwrite on the next run.
