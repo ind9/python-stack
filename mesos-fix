@@ -13,7 +13,10 @@ APP_PATH=${APP_PATH:-/app/}
 add_base_path_on_top_in() {
   FILE=$1
   if [ -f $FILE ]; then
-    sed -i '1i export BASE_PATH=$(cd `dirname $BASH_SOURCE`; pwd -P)/../' $FILE
+    # Add after the shebang in the file
+    sed -i '/#\!/a export BASE_PATH=$(cd `dirname $BASH_SOURCE`; pwd -P)/../' $FILE
+    # Add to the BOF if shebang is not present
+    egrep "#\!" $FILE || sed -i '1i export BASE_PATH=$(cd `dirname $BASH_SOURCE`; pwd -P)/../' $FILE
   fi
 }
 
