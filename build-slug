@@ -17,7 +17,7 @@ pushd /app
 if [ -f bin/pre_package ]; then
     echo "-----> Running pre_package hook"
     chmod +x bin/pre_package
-    ./bin/pre_package
+    run_in_sandbox "./bin/pre_package"
 fi
 popd
 
