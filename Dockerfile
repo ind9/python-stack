@@ -12,7 +12,7 @@ ENV LANG=en_US.UTF-8    \
 RUN apt-get update  \
     && apt-get -y install coreutils curl tar git-core daemontools gcc g++ python
 
-RUN curl --silent http://dl.gliderlabs.com/herokuish/latest/linux_x86_64.tgz \
+RUN curl --silent https://github.com/gliderlabs/herokuish/releases/download/v0.3.23/herokuish_0.3.23_linux_x86_64.tgz \
     | tar -xzC /bin
 
 COPY mesos-fix /bin/mesos-fix
